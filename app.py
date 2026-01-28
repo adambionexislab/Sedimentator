@@ -1,38 +1,27 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from schemas import FlocculantRequest, FlocculantResponse
-from model import SludgeModel
+from model import TheoreticalSludgeModel
 from optimizer import recommend_dose
-from config import CONTROL_TARGET_CM, HARD_LIMIT_CM, DEFAULT_MAX_DOSE
+from config import TARGET_SLUDGE_CM
 
-app = FastAPI(
-    title="Flocculant Optimization API",
-    description="Predicts sludge height and recommends flocculant dose",
-    version="1.0"
-)
+app = FastAPI(title="Flocculant Recommendation API")
 
-model = SludgeModel()
+model = TheoreticalSludgeModel()
 
 @app.post("/flocculant/recommend", response_model=FlocculantResponse)
-def recommend_flcoagulant(request: FlocculantRequest):
-    result = recommend_dose(
-        model=model,
+def recommend(request: FlocculantRequest):
+
+    predicted_teoretical_sludge = model.predict(
         COD=request.COD,
         SVI=request.SVI,
         SS=request.SS,
-        FLOW=request.FLOW,
-        max_dose=DEFAULT_MAX_DOSE
+        FLOW=request.FLOW
     )
 
-    if result is None:
-        raise HTTPException(
-            status_code=422,
-            detail="No safe flocculant dose found under current conditions"
-        )
+    dose = recommend_dose(predicted_teoretical_sludge)
 
     return FlocculantResponse(
-        recommended_dose_l_m3=result["dose"],
-        predicted_sludge_cm=result["predicted_sludge"],
-        target_cm=CONTROL_TARGET_CM,
-        hard_limit_cm=HARD_LIMIT_CM,
-        confidence="medium"
+        predicted_teoretical_sludge=round(predicted_teoretical_sludge, 2),
+        recommended_dose_l_m3=dose,
+        target_sludge_cm=TARGET_SLUDGE_CM
     )

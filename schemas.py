@@ -1,14 +1,12 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 class FlocculantRequest(BaseModel):
-    COD: float = Field(..., example=400)
-    SVI: float = Field(..., example=170)
-    SS: float = Field(..., example=3.2)
-    FLOW: float = Field(..., example=1300)
+    COD: float
+    SVI: float
+    SS: float
+    FLOW: float
 
 class FlocculantResponse(BaseModel):
+    predicted_teoretical_sludge: float
     recommended_dose_l_m3: float
-    predicted_sludge_cm: float
-    target_cm: float
-    hard_limit_cm: float
-    confidence: str
+    target_sludge_cm: float
