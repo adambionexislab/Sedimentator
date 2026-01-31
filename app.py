@@ -71,6 +71,17 @@ def debug_generate_charts():
 
     output_dir = "static/reports/charts"
 
+    print(df.columns.tolist())
+
+    # --- temporary ---
+    print(
+        df[[
+            "FLOW",
+            "RECOMMENDED_FLOCCULANT_DOSE_L_H"
+        ]].head(10)
+    )
+    # --- temporary ---
+    
     paths = {
         "dose": plot_flocculant_dose(df, output_dir),
         "sludge": plot_sludge_height(df, output_dir),
