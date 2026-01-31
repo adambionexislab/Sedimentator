@@ -7,7 +7,7 @@ from model import TheoreticalSludgeModel
 from optimizer import recommend_dose
 from config import TARGET_SLUDGE_CM
 from sheets_logger import log_prediction
-
+from report_data import load_last_30_days
 
 app = FastAPI(title="Flocculant Recommendation API")
 
@@ -47,3 +47,11 @@ def recommend(request: FlocculantRequest):
         recommended_dose_l_m3=dose,
         target_sludge_cm=TARGET_SLUDGE_CM
     )
+
+@app.get("/debug/last-30-days")
+def debug_last_30_days():
+    df = load_last_30_days()
+    return {
+        "rows": len(df),
+        "columns": list(df.columns)
+    }

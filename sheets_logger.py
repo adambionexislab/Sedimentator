@@ -42,3 +42,18 @@ def log_prediction(data: dict):
     ]
 
     sheet.append_row(row, value_input_option="USER_ENTERED")
+
+def get_gspread_client():
+    creds = Credentials.from_service_account_file(
+        "service_account.json",
+        scopes=SCOPES
+    )
+    return gspread.authorize(creds)
+
+def get_worksheet():
+    client = get_gspread_client()
+    sh = client.open(SPREADSHEET_NAME)
+    try:
+        return sh.worksheet(WORKSHEET_NAME)
+    except gspread.WorksheetNotFound:
+        return sh.add_worksheet(title=WORKSHEET_NAME, rows=1000, cols=20)
