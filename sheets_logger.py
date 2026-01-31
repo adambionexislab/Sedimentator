@@ -10,6 +10,11 @@ WORKSHEET_NAME = "data"
 
 ITALY_TZ = ZoneInfo("Europe/Rome")
 
+SCOPES = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
+    ]
+
 def get_client():
     creds_json = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
     if not creds_json:
