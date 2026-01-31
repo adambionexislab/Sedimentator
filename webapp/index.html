@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flocculant Dose Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 40px auto;
+        }
+        label {
+            display: block;
+            margin-top: 12px;
+        }
+        input {
+            width: 100%;
+            padding: 6px;
+            margin-top: 4px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Flocculant Dose Prediction</h2>
+
+<label>COD (ppm)
+    <input type="number" id="cod" step="any">
+</label>
+
+<label>SVI
+    <input type="number" id="svi" step="any">
+</label>
+
+<label>SS (g/L)
+    <input type="number" id="ss" step="any">
+</label>
+
+<label>FLOW (m³/h)
+    <input type="number" id="flow" step="any">
+</label>
+
+<label>Current Sludge Height (cm)
+    <input type="number" id="sludge" step="any">
+</label>
+
+<button onclick="predict()">Predict</button>
+
+<div class="result" id="result"></div>
+
+<script>
+async function predict() {
+    const data = {
+        COD: parseFloat(document.getElementById("cod").value),
+        SVI: parseFloat(document.getElementById("svi").value),
+        SS: parseFloat(document.getElementById("ss").value),
+        FLOW: parseFloat(document.getElementById("flow").value)
+    };
+
+    const response = await fetch("http://127.0.0.1:8000/flocculant/recommend", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+        document.getElementById("result").innerText = "Error calling prediction API";
+        return;
+    }
+
+    const result = await response.json();
+
+    document.getElementById("result").innerHTML = `
+        <strong>Recommended flocculant dose:</strong><br>
+        ${result.recommended_dose_l_m3} L/m³
+    `;
+}
+</script>
+
+</body>
+</html>
