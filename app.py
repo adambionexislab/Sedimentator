@@ -1,4 +1,7 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
 from schemas import FlocculantRequest, FlocculantResponse
 from model import TheoreticalSludgeModel
 from optimizer import recommend_dose
@@ -6,7 +9,14 @@ from config import TARGET_SLUDGE_CM
 
 app = FastAPI(title="Flocculant Recommendation API")
 
+# Serve static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 model = TheoreticalSludgeModel()
+
+@app.get("/")
+def read_root():
+    return FileResponse("static/index.html")
 
 @app.post("/flocculant/recommend", response_model=FlocculantResponse)
 def recommend(request: FlocculantRequest):
