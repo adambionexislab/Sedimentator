@@ -1,0 +1,41 @@
+import gspread
+from google.oauth2.service_account import Credentials
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import os
+import json
+
+SPREADSHEET_NAME = "Flocculant_Predictions"
+WORKSHEET_NAME = "data"
+
+ITALY_TZ = ZoneInfo("Europe/Rome")
+
+def get_client():
+    creds_json = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+    if not creds_json:
+        raise RuntimeError("Missing GOOGLE_SERVICE_ACCOUNT_JSON env var")
+
+    creds_dict = json.loads(creds_json)
+
+    scopes = ["https://www.googleapis.com/auth/spreadsheets"]
+    creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+
+    return gspread.authorize(creds)
+
+def log_prediction(data: dict):
+    client = get_client()
+    sheet = client.open(SPREADSHEET_NAME).worksheet(WORKSHEET_NAME)
+
+    timestamp = datetime.now(ITALY_TZ).isoformat(timespec="seconds")
+
+    row = [
+        timestamp,
+        data["COD"],
+        data["SVI"],
+        data["SS"],
+        data["FLOW"],
+        data["SLUDGE_CM"],
+        data["RECOMMENDED_DOSE_L_M3"]
+    ]
+
+    sheet.append_row(row, value_input_option="USER_ENTERED")

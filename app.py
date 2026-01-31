@@ -6,6 +6,8 @@ from schemas import FlocculantRequest, FlocculantResponse
 from model import TheoreticalSludgeModel
 from optimizer import recommend_dose
 from config import TARGET_SLUDGE_CM
+from sheets_logger import log_prediction
+
 
 app = FastAPI(title="Flocculant Recommendation API")
 
@@ -29,6 +31,16 @@ def recommend(request: FlocculantRequest):
     )
 
     dose = recommend_dose(predicted_teoretical_sludge)
+
+# 🔹 Log everything
+    log_prediction({
+        "COD": request.COD,
+        "SVI": request.SVI,
+        "SS": request.SS,
+        "FLOW": request.FLOW,
+        "SLUDGE_CM": request.SLUDGE_CM,
+        "RECOMMENDED_DOSE_L_M3": dose
+    })
 
     return FlocculantResponse(
         predicted_teoretical_sludge=round(predicted_teoretical_sludge, 2),

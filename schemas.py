@@ -5,6 +5,7 @@ class FlocculantRequest(BaseModel):
     SVI: float
     SS: float
     FLOW: float
+    SLUDGE_CM: float
 
 class FlocculantResponse(BaseModel):
     predicted_teoretical_sludge: float

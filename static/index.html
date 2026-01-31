@@ -124,10 +124,11 @@ async function predict() {
     const svi = document.getElementById("svi").value;
     const ss = document.getElementById("ss").value;
     const flow = document.getElementById("flow").value;
+    const sludge = document.getElementById("sludge").value;
 
-    if (!cod || !svi || !ss || !flow) {
+    if (!cod || !svi || !ss || !flow || !sludge) {
         document.getElementById("result").innerText =
-            "Please fill in COD, SVI, SS and Flow.";
+            "Please fill in all fields.";
         return;
     }
 
@@ -135,8 +136,10 @@ async function predict() {
         COD: Number(cod),
         SVI: Number(svi),
         SS: Number(ss),
-        FLOW: Number(flow)
+        FLOW: Number(flow),
+        SLUDGE_CM: Number(sludge)
     };
+
 
     try {
         const response = await fetch("/flocculant/recommend", {
@@ -156,7 +159,7 @@ async function predict() {
 
         document.getElementById("result").innerHTML =
             `<strong>Recommended dose</strong><br>
-             ${result.recommended_dose_l_m3} L/m³`;
+             ${result.recommended_dose_l_m3} l/h`;
 
     } catch (err) {
         document.getElementById("result").innerText =
