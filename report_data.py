@@ -42,5 +42,3 @@ def load_last_30_days():
     df = df.sort_values("TIMESTAMP").reset_index(drop=True)
 
     return df
-
-print(df[["FLOW", "RECOMMENDED_FLOCCULANT_DOSE_L_H"]].head())
