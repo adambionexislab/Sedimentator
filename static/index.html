@@ -68,7 +68,7 @@ async function predict() {
         FLOW: parseFloat(document.getElementById("flow").value)
     };
 
-    const response = await fetch("http://127.0.0.1:8000/flocculant/recommend", {
+    const response = await fetch("/flocculant/recommend", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
