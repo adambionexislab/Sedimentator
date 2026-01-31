@@ -49,10 +49,15 @@ def log_prediction(data: dict):
     sheet.append_row(row, value_input_option="USER_ENTERED")
 
 def get_gspread_client():
-    creds = Credentials.from_service_account_file(
-        "service_account.json",
+    service_account_info = json.loads(
+        os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]
+    )
+
+    creds = Credentials.from_service_account_info(
+        service_account_info,
         scopes=SCOPES
     )
+
     return gspread.authorize(creds)
 
 def get_worksheet():
