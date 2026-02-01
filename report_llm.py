@@ -13,7 +13,7 @@ You are a wastewater treatment process expert.
 
 Write a concise operational report based on the last {days} days of data.
 
-FACTS (do not invent numbers):
+FACTS (do not invent numbers and list them in a small table):
 - Number of predictions: {summary['rows']}
 - Average COD: {summary['avg_COD']} ppm
 - Average SVI: {summary['avg_SVI']}
@@ -41,6 +41,7 @@ Tone:
 - Professional
 - Operator-friendly
 - No speculation
+- Dont use ## and other similar symbols to separate sections
 """
 
     response = client.chat.completions.create(
