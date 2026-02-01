@@ -41,8 +41,7 @@ Tone:
 - Professional
 - Operator-friendly
 - No speculation
-- Dont use ## and other similar symbols to separate sections, instead make the section names bold
-- List the FACTS in a table
+- Dont use ##,** and other similar symbols to separate sections
 """
 
     response = client.chat.completions.create(
