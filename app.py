@@ -14,6 +14,7 @@ from report_charts import (
     plot_cod_vs_dose
 )
 from report_excel import export_last_30_days_to_excel
+from report_pdf import generate_pdf_report
 
 app = FastAPI(title="Flocculant Recommendation API")
 
@@ -103,6 +104,28 @@ def debug_export_excel():
         return {"status": "no data"}
 
     path = export_last_30_days_to_excel(df)
+
+    return {
+        "status": "ok",
+        "file": path
+    }
+
+@app.get("/debug/generate-pdf")
+def debug_generate_pdf():
+    df = load_last_30_days()
+
+    if df.empty:
+        return {"status": "no data"}
+
+    output_dir = "static/reports/charts"
+
+    chart_paths = {
+        "dose": os.path.join(output_dir, "flocculant_dose.png"),
+        "sludge": os.path.join(output_dir, "sludge_height.png"),
+        "cod_vs_dose": os.path.join(output_dir, "cod_vs_dose.png")
+    }
+
+    path = generate_pdf_report(chart_paths)
 
     return {
         "status": "ok",

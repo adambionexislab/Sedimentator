@@ -10,3 +10,4 @@ google-auth
 pytz
 matplotlib
 openpyxl
+reportlab
