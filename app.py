@@ -15,6 +15,7 @@ from report_charts import (
 )
 from report_excel import export_last_30_days_to_excel
 from report_pdf import generate_pdf_report
+import os
 
 app = FastAPI(title="Flocculant Recommendation API")
 
