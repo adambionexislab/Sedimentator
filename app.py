@@ -13,6 +13,7 @@ from report_charts import (
     plot_sludge_height,
     plot_cod_vs_dose
 )
+from report_excel import export_last_30_days_to_excel
 
 app = FastAPI(title="Flocculant Recommendation API")
 
@@ -91,4 +92,19 @@ def debug_generate_charts():
     return {
         "status": "ok",
         "charts": paths
+    }
+
+
+@app.get("/debug/export-excel")
+def debug_export_excel():
+    df = load_last_30_days()
+
+    if df.empty:
+        return {"status": "no data"}
+
+    path = export_last_30_days_to_excel(df)
+
+    return {
+        "status": "ok",
+        "file": path
     }
