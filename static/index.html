@@ -111,6 +111,16 @@
 
     <button onclick="predict()">Predict</button>
 
+    <hr />
+
+    <h3>30-Day Operational Report</h3>
+
+    <button id="reportBtn" onclick="generateReport()">
+        Generate 30-Day Report
+    </button>
+
+    <p id="reportStatus" style="margin-top:10px;"></p>
+
     <div class="result" id="result"></div>
 
     <div class="footer">
@@ -165,6 +175,42 @@ async function predict() {
         document.getElementById("result").innerText =
             "Request failed: " + err;
     }
+}
+
+async function generateReport() {
+  const btn = document.getElementById("reportBtn");
+  const status = document.getElementById("reportStatus");
+
+  btn.disabled = true;
+  status.innerText = "Generating report… please wait (10–15 seconds)";
+
+  try {
+    const response = await fetch("/report/generate", {
+      method: "POST"
+    });
+
+    if (!response.ok) {
+      throw new Error("Report generation failed");
+    }
+
+    const data = await response.json();
+
+    if (!data.pdf || !data.excel) {
+      throw new Error("Incomplete report response");
+    }
+
+    // Trigger downloads
+    window.open(data.pdf, "_blank");
+    window.open(data.excel, "_blank");
+
+    status.innerText = "Report generated successfully ✔";
+
+  } catch (err) {
+    console.error(err);
+    status.innerText = "Error generating report. Please try again.";
+  } finally {
+    btn.disabled = false;
+  }
 }
 </script>
 

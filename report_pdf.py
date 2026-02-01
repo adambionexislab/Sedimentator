@@ -18,7 +18,7 @@ OUTPUT_DIR = "static/reports/pdf"
 ITALY_TZ = timezone("Europe/Rome")
 
 
-def generate_pdf_report(chart_paths, days=30):
+def generate_pdf_report(chart_paths, report_text, days=30):
     """
     Generates a PDF report with charts and static text.
     Returns the file path.
@@ -58,17 +58,14 @@ def generate_pdf_report(chart_paths, days=30):
     ))
     story.append(Spacer(1, 20))
 
-    # --- Executive summary (placeholder) ---
-    story.append(Paragraph("<b>Executive Summary</b>", styles["Heading2"]))
-    story.append(Spacer(1, 8))
+    # --- removed placeholder text - now LLM text ---
+    story.append(Paragraph("<b>Operational Report</b>", styles["Heading2"]))
+    story.append(Spacer(1, 12))
 
-    story.append(Paragraph(
-        "This report summarizes flocculant dosing performance over the last 30 days. "
-        "It is intended to support operational decision-making and cost optimization. "
-        "The analysis is based on real plant data logged by the dosing recommendation system.",
-        styles["Normal"]
-    ))
-    story.append(Spacer(1, 20))
+    for paragraph in report_text.split("\n\n"):
+        story.append(Paragraph(paragraph, styles["Normal"]))
+        story.append(Spacer(1, 10))
+
 
     # --- Charts ---
     story.append(Paragraph("<b>Process Trends</b>", styles["Heading2"]))

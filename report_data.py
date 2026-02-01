@@ -43,4 +43,19 @@ def load_last_30_days():
 
     return df
 
+def build_summary(df):
+    def avg(col):
+        return round(df[col].mean(), 2) if col in df else None
+
+    return {
+        "rows": len(df),
+        "avg_COD": avg("COD"),
+        "avg_SVI": avg("SVI"),
+        "avg_SS": avg("SS"),
+        "avg_FLOW": avg("FLOW"),
+        "avg_DOSE": avg("RECOMMENDED_FLOCCULANT_DOSE_L_H"),
+        "avg_SLUDGE": avg("SLUDGE"),
+        "pct_above_85": round((df["SLUDGE"] > 85).mean() * 100, 1),
+        "pct_above_100": round((df["SLUDGE"] > 100).mean() * 100, 1),
+    }
 

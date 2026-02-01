@@ -16,6 +16,8 @@ from report_charts import (
 from report_excel import export_last_30_days_to_excel
 from report_pdf import generate_pdf_report
 import os
+from report_data import build_summary
+from report_llm import generate_llm_report
 
 app = FastAPI(title="Flocculant Recommendation API")
 
@@ -55,6 +57,37 @@ def recommend(request: FlocculantRequest):
         recommended_dose_l_m3=dose,
         target_sludge_cm=TARGET_SLUDGE_CM
     )
+
+@app.post("/report/generate")
+def generate_full_report():
+    df = load_last_30_days()
+
+    if df.empty:
+        return {"error": "No data available for report"}
+
+    # Charts
+    charts_dir = "static/reports/charts"
+    chart_paths = {
+        "dose": plot_flocculant_dose(df, charts_dir),
+        "sludge": plot_sludge_height(df, charts_dir),
+        "cod_vs_dose": plot_cod_vs_dose(df, charts_dir)
+    }
+
+    # Excel
+    excel_path = export_last_30_days_to_excel(df)
+
+    # LLM text
+    summary = build_summary(df)
+    report_text = generate_llm_report(summary)
+
+    # PDF
+    pdf_path = generate_pdf_report(chart_paths, report_text)
+
+    return {
+        "status": "ok",
+        "pdf": pdf_path,
+        "excel": excel_path
+    }
 
 @app.get("/debug/last-30-days")
 def debug_last_30_days():
