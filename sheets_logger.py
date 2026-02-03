@@ -4,6 +4,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 import os
 import json
+import pytz
 
 SPREADSHEET_NAME = "Flocculant_Predictions"
 WORKSHEET_NAME = "data"
@@ -67,3 +68,21 @@ def get_worksheet():
         return sh.worksheet(WORKSHEET_NAME)
     except gspread.WorksheetNotFound:
         return sh.add_worksheet(title=WORKSHEET_NAME, rows=1000, cols=20)
+    
+def log_oxygen_prediction(data: dict):
+    tz = pytz.timezone("Europe/Rome")
+    timestamp = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+
+    sheet = client.open(SPREADSHEET_NAME).worksheet("oxygen_data")
+
+    row = [
+        timestamp,
+        data["COD"],
+        data["FLOW"],
+        data["TEMPERATURE"],
+        data["TARGET_OXYGEN"],
+        data["BASE_AIRFLOW"],
+        data["RECOMMENDED_AIRFLOW"]
+    ]
+
+    sheet.append_row(row, value_input_option="USER_ENTERED")

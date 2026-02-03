@@ -123,10 +123,31 @@
 
     <div class="result" id="result"></div>
 
+<div class="card">
+  <h2>Oxygen Airflow Recommendation</h2>
+
+  <label>COD (ppm)</label>
+  <input type="number" id="o_cod" step="any">
+
+  <label>Flow (m³/h)</label>
+  <input type="number" id="o_flow" step="any">
+
+  <label>Temperature (°C)</label>
+  <input type="number" id="o_temp" step="any">
+
+  <label>Target Oxygen (ppm)</label>
+  <input type="number" id="o_target" step="any" value="2">
+
+  <button onclick="predictOxygen()">Predict</button>
+
+  <div class="result" id="oxygenResult"></div>
+</div>
+
     <div class="footer">
         Process optimization tool
     </div>
 </div>
+
 
 <script>
 async function predict() {
@@ -210,6 +231,38 @@ async function generateReport() {
     status.innerText = "Error generating report. Please try again.";
   } finally {
     btn.disabled = false;
+  }
+}
+
+async function predictOxygen() {
+  const data = {
+    COD: parseFloat(document.getElementById("o_cod").value),
+    FLOW: parseFloat(document.getElementById("o_flow").value),
+    TEMPERATURE: parseFloat(document.getElementById("o_temp").value),
+    TARGET_OXYGEN: parseFloat(document.getElementById("o_target").value)
+  };
+
+  try {
+    const response = await fetch("/oxygen/recommend", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error("API error");
+    }
+
+    const result = await response.json();
+
+    document.getElementById("oxygenResult").innerHTML =
+      `<strong>Recommended Airflow:</strong> ${result.RECOMMENDED_AIRFLOW} Nm³/h`;
+
+  } catch (error) {
+    document.getElementById("oxygenResult").innerHTML =
+      "<span style='color:red'>Error calculating oxygen airflow</span>";
   }
 }
 </script>

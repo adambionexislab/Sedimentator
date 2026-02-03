@@ -18,6 +18,9 @@ from report_pdf import generate_pdf_report
 import os
 from report_data import build_summary
 from report_llm import generate_llm_report
+from schemas import OxygenRequest, OxygenResponse
+from oxygen_model import predict_airflow
+from sheets_logger import log_oxygen_prediction
 
 app = FastAPI(title="Flocculant Recommendation API")
 
@@ -88,6 +91,37 @@ def generate_full_report():
         "pdf": pdf_path,
         "excel": excel_path
     }
+
+@app.post("/oxygen/recommend", response_model=OxygenResponse)
+def recommend_oxygen(request: OxygenRequest):
+
+    base_airflow = predict_airflow(
+        cod=request.COD,
+        flow=request.FLOW,
+        temperature=request.TEMPERATURE
+    )
+
+    correction_factor = request.TARGET_OXYGEN / 2.0
+    recommended_airflow = base_airflow * correction_factor
+
+    response = {
+        "BASE_AIRFLOW": round(base_airflow, 2),
+        "TARGET_OXYGEN": request.TARGET_OXYGEN,
+        "RECOMMENDED_AIRFLOW": round(recommended_airflow, 2)
+    }
+
+    # 🔹 Log to Google Sheets
+    log_oxygen_prediction({
+        "COD": request.COD,
+        "FLOW": request.FLOW,
+        "TEMPERATURE": request.TEMPERATURE,
+        "TARGET_OXYGEN": request.TARGET_OXYGEN,
+        "BASE_AIRFLOW": response["BASE_AIRFLOW"],
+        "RECOMMENDED_AIRFLOW": response["RECOMMENDED_AIRFLOW"]
+    })
+
+    return response
+
 
 @app.get("/debug/last-30-days")
 def debug_last_30_days():
