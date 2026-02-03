@@ -72,7 +72,7 @@ def get_worksheet():
 def log_oxygen_prediction(data: dict):
     tz = pytz.timezone("Europe/Rome")
     timestamp = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
-
+    client = get_client()
     sheet = client.open(SPREADSHEET_NAME).worksheet("oxygen_data")
 
     row = [
