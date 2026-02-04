@@ -31,7 +31,7 @@ CONSTRAINTS:
 
 STRUCTURE THE REPORT WITH THE FOLLOWING SECTIONS IN THIS ORDER:
 1. Executive Summary
-2. Table contaning FACTS.
+2. List contaning FACTS.
 3. Process Performance
 4. Flocculant Usage & Cost Efficiency
 5. Operational Risks
@@ -40,17 +40,15 @@ STRUCTURE THE REPORT WITH THE FOLLOWING SECTIONS IN THIS ORDER:
 DO NOT write the section names explicitly in the text.
 Separate sections using plain paragraphs only.
 
-The second section MUST be a CSV table.
+The second section MUST be a plain text list.
 
-Before writing the report, internally construct the table rows.
-Then render the table in Markdown following the rules above.
-
-TABLE RULES (VERY IMPORTANT):
-- Use comma as separator
-- One row per line
-- No line breaks inside values
-- Header must be: Metric,Value
-- Do not wrap values in quotes
+LIST RULES (VERY IMPORTANT):
+- One metric per line
+- Each line must follow EXACTLY this format:
+  Metric name: value
+- Do NOT insert line breaks inside a metric
+- Do NOT add bullet symbols, numbers, or extra punctuation
+- Output exactly 9 lines, one for each FACT
 
 Tone:
 - Clear
