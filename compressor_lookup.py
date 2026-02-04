@@ -23,6 +23,6 @@ def get_compressor_setup(required_airflow: float) -> dict:
 
     return {
         "COMPRESSORS": int(row["COMPRESSORS"]),
-        "INVERTER_PERCENT": float(row["INVERTER"]),
+        "INVERTER_PERCENT": round(float(row["INVERTER"]) * 100, 2),
         "CONSUMPTION_KW": float(row["CONSUMPTION"])
     }
