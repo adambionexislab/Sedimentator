@@ -29,19 +29,23 @@ CONSTRAINTS:
 - Sludge limit = 100 cm
 - Goal: minimize flocculant usage while staying below limits
 
-STRUCTURE YOUR REPORT WITH THESE SECTIONS:
+STRUCTURE YOUR REPORT WITH THESE SECTIONS WITHOUT SPECIFYING THE SECTION NAMES IN THE TEXT:
 1. Executive Summary
-2. Process Performance
-3. Flocculant Usage & Cost Efficiency
-4. Operational Risks
-5. Recommendations
+2. Table contaning FACTS
+3. Process Performance
+4. Flocculant Usage & Cost Efficiency
+5. Operational Risks
+6. Recommendations
+
+
 
 Tone:
 - Clear
 - Professional
 - Operator-friendly
 - No speculation
-- Dont use ##,** and other similar symbols to separate sections
+- Do not use ##,** and other similar symbols to separate sections
+
 """
 
     response = client.chat.completions.create(
