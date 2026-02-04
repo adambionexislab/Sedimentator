@@ -40,15 +40,17 @@ STRUCTURE THE REPORT WITH THE FOLLOWING SECTIONS IN THIS ORDER:
 DO NOT write the section names explicitly in the text.
 Separate sections using plain paragraphs only.
 
-The second section MUST be a plain text list.
+The second section MUST be a newline-delimited list.
 
-LIST RULES (VERY IMPORTANT):
-- One metric per line
+FORMAT RULES (CRITICAL):
+- Start each metric on a NEW LINE
+- Insert exactly one newline character (\n) between metrics
+- Do NOT place multiple metrics on the same line
+- Do NOT wrap lines
+- Output exactly 9 lines
+- Do NOT merge lines into a paragraph
 - Each line must follow EXACTLY this format:
   Metric name: value
-- Do NOT insert line breaks inside a metric
-- Do NOT add bullet symbols, numbers, or extra punctuation
-- Output exactly 9 lines, one for each FACT
 
 Tone:
 - Clear
