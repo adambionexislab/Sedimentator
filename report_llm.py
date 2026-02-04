@@ -29,15 +29,25 @@ CONSTRAINTS:
 - Sludge limit = 100 cm
 - Goal: minimize flocculant usage while staying below limits
 
-STRUCTURE YOUR REPORT WITH THESE SECTIONS WITHOUT SPECIFYING THE SECTION NAMES IN THE TEXT:
+STRUCTURE THE REPORT WITH THE FOLLOWING SECTIONS IN THIS ORDER:
 1. Executive Summary
-2. Table contaning FACTS
+2. Table contaning FACTS.
 3. Process Performance
 4. Flocculant Usage & Cost Efficiency
 5. Operational Risks
 6. Recommendations
 
+DO NOT write the section names explicitly in the text.
+Separate sections using plain paragraphs only.
 
+The second section MUST be a Markdown table.
+
+TABLE RULES (VERY IMPORTANT):
+- The table must have EXACTLY two columns: Metric | Value
+- Each table row must be on ONE SINGLE LINE
+- Do NOT insert line breaks inside table cells
+- Each row must contain exactly two '|' separators
+- Output only valid Markdown
 
 Tone:
 - Clear
