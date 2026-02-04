@@ -40,17 +40,17 @@ STRUCTURE THE REPORT WITH THE FOLLOWING SECTIONS IN THIS ORDER:
 DO NOT write the section names explicitly in the text.
 Separate sections using plain paragraphs only.
 
-The second section MUST be a Markdown table.
+The second section MUST be a CSV table.
 
 Before writing the report, internally construct the table rows.
 Then render the table in Markdown following the rules above.
 
 TABLE RULES (VERY IMPORTANT):
-- The table must have EXACTLY two columns: Metric | Value
-- Each table row must be on ONE SINGLE LINE
-- Do NOT insert line breaks inside table cells
-- Each row must contain exactly two '|' separators
-- Output only valid Markdown
+- Use comma as separator
+- One row per line
+- No line breaks inside values
+- Header must be: Metric,Value
+- Do not wrap values in quotes
 
 Tone:
 - Clear

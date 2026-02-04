@@ -111,18 +111,6 @@
 
     <button onclick="predict()">Predict</button>
 
-    <hr />
-
-    <h3>30-Day Operational Report</h3>
-
-    <button id="reportBtn" onclick="generateReport()">
-        Generate 30-Day Report
-    </button>
-
-    <p id="reportStatus" style="margin-top:10px;"></p>
-
-    <div class="result" id="result"></div>
-
 <div class="card">
   <h2>Oxygen Airflow Recommendation</h2>
 
@@ -141,7 +129,20 @@
   <button onclick="predictOxygen()">Predict</button>
 
   <div class="result" id="oxygenResult"></div>
+
 </div>
+
+    <hr />
+
+    <h3>30-Day Operational Report</h3>
+
+    <button id="reportBtn" onclick="generateReport()">
+        Generate 30-Day Report
+    </button>
+
+    <p id="reportStatus" style="margin-top:10px;"></p>
+
+    <div class="result" id="result"></div>
 
     <div class="footer">
         Process optimization tool
