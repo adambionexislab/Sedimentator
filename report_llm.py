@@ -42,6 +42,9 @@ Separate sections using plain paragraphs only.
 
 The second section MUST be a Markdown table.
 
+Before writing the report, internally construct the table rows.
+Then render the table in Markdown following the rules above.
+
 TABLE RULES (VERY IMPORTANT):
 - The table must have EXACTLY two columns: Metric | Value
 - Each table row must be on ONE SINGLE LINE
