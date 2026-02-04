@@ -21,6 +21,7 @@ from report_llm import generate_llm_report
 from schemas import OxygenRequest, OxygenResponse
 from oxygen_model import predict_airflow
 from sheets_logger import log_oxygen_prediction
+from compressor_lookup import get_compressor_setup
 
 app = FastAPI(title="Flocculant Recommendation API")
 
@@ -104,10 +105,15 @@ def recommend_oxygen(request: OxygenRequest):
     correction_factor = request.TARGET_OXYGEN / 2.0
     recommended_airflow = base_airflow * correction_factor
 
+    compressor_data = get_compressor_setup(recommended_airflow)
+
     response = {
         "BASE_AIRFLOW": round(base_airflow, 2),
         "TARGET_OXYGEN": request.TARGET_OXYGEN,
-        "RECOMMENDED_AIRFLOW": round(recommended_airflow, 2)
+        "RECOMMENDED_AIRFLOW": round(recommended_airflow, 2),
+        "COMPRESSORS": compressor_data["COMPRESSORS"],
+        "INVERTER_PERCENT": compressor_data["INVERTER_PERCENT"],
+        "CONSUMPTION_KW": compressor_data["CONSUMPTION_KW"]
     }
 
     # 🔹 Log to Google Sheets

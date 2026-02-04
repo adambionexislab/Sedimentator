@@ -23,3 +23,6 @@ class OxygenResponse(BaseModel):
     BASE_AIRFLOW: float
     TARGET_OXYGEN: float
     RECOMMENDED_AIRFLOW: float
+    COMPRESSORS: int
+    INVERTER_PERCENT: float
+    CONSUMPTION_KW: float

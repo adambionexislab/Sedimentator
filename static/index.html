@@ -257,8 +257,13 @@ async function predictOxygen() {
 
     const result = await response.json();
 
-    document.getElementById("oxygenResult").innerHTML =
-      `<strong>Recommended Airflow:</strong> ${result.RECOMMENDED_AIRFLOW} Nm³/h`;
+    document.getElementById("oxygenResult").innerHTML = `
+      <div><strong>Recommended Airflow:</strong> ${result.RECOMMENDED_AIRFLOW} Nm³/h</div>
+      <div><strong>Compressors:</strong> ${result.COMPRESSORS}</div>
+      <div><strong>Inverter Load:</strong> ${result.INVERTER_PERCENT} %</div>
+      <div><strong>Power Consumption:</strong> ${result.CONSUMPTION_KW} kW</div>
+    `;
+
 
   } catch (error) {
     document.getElementById("oxygenResult").innerHTML =
